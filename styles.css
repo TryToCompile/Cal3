@@ -1,0 +1,55 @@
+.cal-body {
+    display: grid;
+    grid-template-columns: 30px 30px 30px 30px 30px 30px 30px;
+    grid-template-rows: 30px 30px 30px 30px 30px 30px;
+  }
+  
+  .cal-body div:hover:not(.dayName) {
+    font-size: 22px;
+    cursor:default;
+  }  
+
+  #main {
+    display: grid;
+    grid-template-columns: 250px;
+  }
+  
+  .weekend {
+    font-style: italic;
+    color: red;
+    /* background-color: rgba(red, green, blue, 0.2);
+    */
+  }
+  
+  #main section {
+    margin: 10px;
+    border: 1px solid black;
+    width: 195px;
+    padding: 10px;
+    background-color: antiquewhite;
+  }
+  .cal-head {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .cal-btn {
+    width: 20px;
+    font-size: 13px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  .cal-head span:not(.cal-btn) {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  
+  .today {
+    background: rgba(144, 95, 50, 0.3);
+    border-radius: 5px;
+  }
+  
