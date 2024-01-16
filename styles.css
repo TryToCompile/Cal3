@@ -5,9 +5,15 @@
   }
   
   .cal-body div:hover:not(.dayName) {
-    font-size: 22px;
+    background-color: rgba(144, 95, 50, 0.3);
     cursor:default;
   }  
+
+  .cal-body div:not(.dayName){
+    max-width: 18px;
+    max-height: 18px;
+    border-radius: 5px;
+  }
 
   #main {
     display: grid;
@@ -19,6 +25,9 @@
     color: red;
     /* background-color: rgba(red, green, blue, 0.2);
     */
+  }
+  .active {
+    background-color: rgba(144, 95, 50, 0.3);
   }
   
   #main section {

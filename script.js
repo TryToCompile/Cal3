@@ -71,10 +71,14 @@ const monthNames = [
     createBtn.innerText = "Создать";
     createBtn.className = "createBtn";
     createBtn.addEventListener("click", function () {
-       createCalendar(
-      Number(selectYear.options[selectYear.selectedIndex].text),
-         Number(selectMonth.options[selectMonth.selectedIndex].value) 
-       ); 
+      const year = Number(selectYear.options[selectYear.selectedIndex].text);
+      const month = Number(selectMonth.options[selectMonth.selectedIndex].value);
+      const date = new Date(year, month, 1, 0, 0, 0);
+      if (date.toString() == "Invalid Date") console.error("Invalid Date");
+      else {
+        createCalendar(year, month);
+        deleteBtn.disabled = false;
+      }
     })
     header.append(createBtn);
     // selects
@@ -98,6 +102,7 @@ const monthNames = [
     let deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Удалить";
     deleteBtn.className = "deleteBtn";
+    deleteBtn.disabled = true;
     deleteBtn.addEventListener("click", function () {
         deleteCalendar();
     })
@@ -113,9 +118,6 @@ function deleteCalendar(){
 /*== Но если в селектах будет хотя бы одно из default’ных значений (“Выбрать месяц” или “Выбрать год”),
  то кнопка задизейблена, т.е. не активна.
 == Если нет календарей для удаления, то кнопка задизейблена, т.е. не активна.
-== При наведении на ячейку календаря с числом месяца (т.е. датой), она должна подсвечиваться другим фоновым цветом,
- а по клику этот цвет должен оставаться, но при этом активной может быть только одна ячейка этого конкретного календаря. Т.е
- . для каждого календаря можно сделать одну активную ячейку.
  */
 
 //  let month = 12;
@@ -224,6 +226,8 @@ function deleteCalendar(){
         div.innerText = `${dayNames[i]}`;
         calBody.append(div);
       }
+      calBody.addEventListener('click', calBodyClickHandler);
+      calBody.addEventListener('blur', calBodyBlurHandler);
       if (mode === "specific") {
         console.log(year, " ", month);
         specificDate = new Date(year, month - 1, 1, 0, 0, 0);
@@ -275,6 +279,28 @@ function deleteCalendar(){
       let calBody = document.querySelector(`.${className}-body`);
       while (calBody.firstChild) {
         calBody.removeChild(calBody.firstChild);
+      }
+    }
+    function calBodyClickHandler(event){
+      const activeElement = event.currentTarget.querySelector('.active');
+      console.log(this,'dasdas');
+      if (  
+        event.target.className !== 'dayName' && 
+        !event.target.classList.contains('cal-body') && 
+        event.target.innerText !== ''
+      ) {
+        if (activeElement != event.target && activeElement) {
+          activeElement.classList.remove('active');
+        }
+
+        event.target.classList.add('active');
+      }
+   }
+    function calBodyBlurHandler(event){
+      if (event.target.className != 'dayName' && 
+          !event.target.classList.contains('cal-body') &&
+          event.target.innerText != ''){
+//        event.target.classList.remove('active');
       }
     }
   }
