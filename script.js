@@ -64,12 +64,20 @@ const monthNames = [
     if (elementId == false) elementId = "header";
     let element = document.getElementById(`${elementId}`);
     let header = document.createElement("section");
+    header.addEventListener("change", function (event) {
+        if (selectMonth.value == 0 || selectYear.value == "Выбрать год") {
+            createBtn.disabled = true;
+        } else {
+            createBtn.disabled = false;
+        }
+    })
     header.className = "head";
     element.append(header);
     // create calendar button
     let createBtn = document.createElement("button");
     createBtn.innerText = "Создать";
     createBtn.className = "createBtn";
+    createBtn.disabled = true;
     createBtn.addEventListener("click", function () {
       const year = Number(selectYear.options[selectYear.selectedIndex].text);
       const month = Number(selectMonth.options[selectMonth.selectedIndex].value);
@@ -84,6 +92,8 @@ const monthNames = [
     // selects
     let selectMonth = document.createElement("select");
     let selectYear = document.createElement("select");
+    selectMonth.classList.add('selectMonth');
+    selectYear.classList.add('selectYear');
     for (let i = 0; i < monthNames.length; i++) {
       let opt = document.createElement("option");
       opt.value = i;
@@ -103,21 +113,23 @@ const monthNames = [
     deleteBtn.innerText = "Удалить";
     deleteBtn.className = "deleteBtn";
     deleteBtn.disabled = true;
-    deleteBtn.addEventListener("click", function () {
-        deleteCalendar();
+    deleteBtn.addEventListener("click", function (event) {
+        deleteCalendar(event);
     })
     header.append(deleteBtn);
   }
 
   
-function deleteCalendar(){
+function deleteCalendar(event){
     let node = document.getElementById("main");
-    node.firstChild.remove();
+        node.firstChild.remove();
+        if (node.firstChild == null) {
+            event.target.disabled = true;
+        }
 };
 
 /*== Но если в селектах будет хотя бы одно из default’ных значений (“Выбрать месяц” или “Выбрать год”),
  то кнопка задизейблена, т.е. не активна.
-== Если нет календарей для удаления, то кнопка задизейблена, т.е. не активна.
  */
 
 //  let month = 12;
@@ -145,7 +157,7 @@ function deleteCalendar(){
     }
     let section = document.createElement("section");
     section.className = className;
-    debugger;
+    //debugger;
     element.append(section);
   
     let div = document.createElement("div");
